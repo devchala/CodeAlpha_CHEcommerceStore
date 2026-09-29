@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | ChalaStore</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="auth-page">
+  <div class="auth-card">
+    <a class="brand" href="/">Chala<span>Store</span></a>
+    <h1>Create account</h1>
+    <p>Join ChalaStore and start shopping.</p>
+    <form id="registerForm">
+      <input id="registerName" type="text" placeholder="Full name" required>
+      <input id="registerEmail" type="email" placeholder="Email" required>
+      <input id="registerPassword" type="password" placeholder="Password" minlength="6" required>
+      <button class="btn" type="submit">Create account</button>
+    </form>
+    <p id="authMessage"></p>
+    <a href="login.html">Already have an account?</a>
+  </div>
+  <script src="js/auth.js"></script>
+</body>
+</html>
