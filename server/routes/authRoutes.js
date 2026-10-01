@@ -3,6 +3,10 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
+// The account whose email equals ADMIN_EMAIL (in .env) is the store admin.
+const roleFor = (u) =>
+  process.env.ADMIN_EMAIL && u.email === process.env.ADMIN_EMAIL.trim().toLowerCase() ? "admin" : "user";
+
 router.post("/register", async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -20,7 +24,7 @@ router.post("/register", async (req, res) => {
     const user = await User.create({ name, email, password: hashedPassword });
 
     const token = jwt.sign(
-      { id: user._id, name: user.name, email: user.email },
+      { id: user._id, name: user.name, email: user.email, role: roleFor(user) },
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
@@ -28,7 +32,7 @@ router.post("/register", async (req, res) => {
     res.status(201).json({
       message: "Registration successful",
       token,
-      user: { id: user._id, name: user.name, email: user.email }
+      user: { id: user._id, name: user.name, email: user.email, role: roleFor(user) }
     });
   } catch (error) {
     res.status(500).json({ message: "Registration failed" });
@@ -45,7 +49,7 @@ router.post("/login", async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: user._id, name: user.name, email: user.email },
+      { id: user._id, name: user.name, email: user.email, role: roleFor(user) },
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
@@ -53,7 +57,7 @@ router.post("/login", async (req, res) => {
     res.json({
       message: "Login successful",
       token,
-      user: { id: user._id, name: user.name, email: user.email }
+      user: { id: user._id, name: user.name, email: user.email, role: roleFor(user) }
     });
   } catch {
     res.status(500).json({ message: "Login failed" });
