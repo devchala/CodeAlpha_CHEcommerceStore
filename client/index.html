@@ -1,52 +1,149 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ChalaStore | Modern E-commerce</title>
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-  <header class="navbar">
-    <a class="brand" href="/">Chala<span>Store</span></a>
-    <nav>
-      <a href="#products">Products</a>
-      <a href="login.html">Login</a>
-      <a class="cart" href="cart.html">Cart <span id="cartCount">0</span></a>
-    </nav>
-  </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ChalaStore | Modern E-commerce</title>
+    <meta
+      name="description"
+      content="ChalaStore - a full stack e-commerce store built with Node.js, Express and MongoDB."
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/theme.js"></script>
+  </head>
+  <body>
+    <header class="navbar" id="navbar"></header>
 
-  <main>
-    <section class="hero">
-      <div>
-        <p class="eyebrow">CODEALPHA FULL STACK PROJECT</p>
-        <h1>Everything you need.<br><span>One simple store.</span></h1>
-        <p class="hero-text">A clean e-commerce experience built with HTML, CSS, JavaScript, Node.js, Express and MongoDB.</p>
-        <a class="btn" href="#products">Shop products</a>
-      </div>
-      <div class="hero-card">
-        <div class="hero-icon">🛍️</div>
-        <h3>Modern shopping</h3>
-        <p>Products, cart, authentication and order processing.</p>
-      </div>
-    </section>
-
-    <section id="products" class="section">
-      <div class="section-heading">
+    <main>
+      <section class="hero">
         <div>
-          <p class="eyebrow">OUR COLLECTION</p>
-          <h2>Featured products</h2>
+          <p class="eyebrow">Fast and Safe Trade place</p>
+          <h1>Everything you need.<br /><span>One simple store.</span></h1>
+          <p class="hero-text">
+            A clean e-commerce experience built with HTML, CSS, JavaScript,
+            Node.js, Express and MongoDB.
+          </p>
+          <a class="btn" href="#products">Shop products</a>
+          <div class="hero-stats">
+            <div><strong>100+</strong><span>Products</span></div>
+            <div><strong>24/7</strong><span>Support</span></div>
+            <div><strong>Secure</strong><span>Checkout</span></div>
+          </div>
         </div>
-        <input id="searchInput" class="search" type="search" placeholder="Search products...">
-      </div>
-      <div id="productGrid" class="product-grid"></div>
-    </section>
-  </main>
+        <div class="hero-card">
+          <div class="hero-icon">🛍️</div>
+          <h3>Modern shopping</h3>
+          <p>Products, cart, authentication and order processing.</p>
+        </div>
+      </section>
 
-  <footer>
-    <p>© 2026 ChalaStore · CodeAlpha Full Stack Development</p>
-  </footer>
+      <section class="features">
+        <div>
+          <span class="feature-icon" aria-hidden="true"
+            ><svg
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.75"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"
+              />
+              <path d="M15 18H9" />
+              <path
+                d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"
+              />
+              <circle cx="17" cy="18" r="2" />
+              <circle cx="7" cy="18" r="2" /></svg
+          ></span>
+          <h4>Fast delivery</h4>
+          <p>Quick, reliable shipping</p>
+        </div>
+        <div>
+          <span class="feature-icon" aria-hidden="true"
+            ><svg
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.75"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+              />
+              <path d="m9 12 2 2 4-4" /></svg
+          ></span>
+          <h4>Secure checkout</h4>
+          <p>Protected accounts and orders</p>
+        </div>
+        <div>
+          <span class="feature-icon" aria-hidden="true"
+            ><svg
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.75"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+              <path d="M3 3v5h5" /></svg
+          ></span>
+          <h4>Easy returns</h4>
+          <p>Hassle-free 30-day returns</p>
+        </div>
+        <div>
+          <span class="feature-icon" aria-hidden="true"
+            ><svg
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.75"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5Zm0 0a9 9 0 1 1 18 0m0 0v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"
+              />
+              <path d="M21 16v2a4 4 0 0 1-4 4h-5" /></svg
+          ></span>
+          <h4>Friendly support</h4>
+          <p>We are here to help</p>
+        </div>
+      </section>
 
-  <script src="js/app.js"></script>
-</body>
+      <section id="products" class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">OUR COLLECTION</p>
+            <h2>Featured products</h2>
+          </div>
+          <input
+            id="searchInput"
+            class="search"
+            type="search"
+            placeholder="Search products..."
+          />
+        </div>
+        <div id="categories" class="chips"></div>
+        <div id="productGrid" class="product-grid"></div>
+      </section>
+    </main>
+
+    <footer id="footer"></footer>
+
+    <script src="js/common.js"></script>
+    <script src="js/app.js"></script>
+  </body>
 </html>

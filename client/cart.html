@@ -5,12 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cart | ChalaStore</title>
   <link rel="stylesheet" href="css/style.css">
+  <script src="js/theme.js"></script>
 </head>
 <body>
-  <header class="navbar">
-    <a class="brand" href="/">Chala<span>Store</span></a>
-    <nav><a href="/">Continue shopping</a></nav>
-  </header>
+  <header class="navbar" id="navbar"></header>
   <main class="section">
     <p class="eyebrow">YOUR BAG</p>
     <h1>Shopping cart</h1>
@@ -19,8 +17,11 @@
       <h2>Total: $<span id="cartTotal">0.00</span></h2>
       <button id="checkoutBtn" class="btn">Place order</button>
     </div>
-    <p id="cartMessage"></p>
+    <p id="cartMessage" class="msg"></p>
   </main>
+  <footer id="footer"></footer>
+
+  <script src="js/common.js"></script>
   <script src="js/cart.js"></script>
 </body>
 </html>

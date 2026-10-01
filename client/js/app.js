@@ -1,63 +1,68 @@
-const productGrid = document.getElementById("productGrid");
+const grid = document.getElementById("productGrid");
 const searchInput = document.getElementById("searchInput");
-
-const fallbackProducts = [
-  { _id: "demo1", name: "Wireless Headphones", description: "Comfortable headphones with immersive sound.", price: 59.99, category: "Audio", stock: 12, image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80" },
-  { _id: "demo2", name: "Smart Watch", description: "Minimal smartwatch for everyday productivity.", price: 89.99, category: "Wearables", stock: 8, image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80" },
-  { _id: "demo3", name: "Laptop Backpack", description: "Durable backpack with a dedicated laptop section.", price: 44.99, category: "Accessories", stock: 20, image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80" },
-  { _id: "demo4", name: "Mechanical Keyboard", description: "Compact keyboard designed for developers.", price: 74.99, category: "Workspace", stock: 15, image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=800&q=80" }
-];
-
+const categoryBar = document.getElementById("categories");
 let products = [];
+let activeCategory = "All";
 
 async function loadProducts() {
+  grid.innerHTML = `<p class="state">Loading products…</p>`;
   try {
-    const response = await fetch("/api/products");
-    products = response.ok ? await response.json() : fallbackProducts;
+    const res = await fetch("/api/products");
+    if (!res.ok) throw new Error();
+    products = await res.json();
   } catch {
-    products = fallbackProducts;
+    grid.innerHTML = `<p class="state">Could not load products. Make sure the server and database are running.</p>`;
+    return;
   }
-  renderProducts(products);
+  renderCategories();
+  render();
 }
 
-function renderProducts(items) {
-  productGrid.innerHTML = items.map(product => `
+function renderCategories() {
+  const cats = ["All", ...new Set(products.map((p) => p.category))];
+  categoryBar.innerHTML = cats.map((c) => `<button class="chip ${c === activeCategory ? "active" : ""}" data-cat="${esc(c)}">${esc(c)}</button>`).join("");
+}
+
+function render() {
+  const q = searchInput.value.trim().toLowerCase();
+  const items = products.filter((p) =>
+    (activeCategory === "All" || p.category === activeCategory) &&
+    (p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q)));
+
+  if (!items.length) { grid.innerHTML = `<p class="state">No products found.</p>`; return; }
+
+  grid.innerHTML = items.map((p) => `
     <article class="product-card">
-      <img src="${product.image}" alt="${product.name}">
+      <div class="img-wrap"><a href="product.html?id=${esc(p._id)}"><img src="${esc(imgSrc(p.image))}" alt="${esc(p.name)}" loading="lazy"></a>
+        ${p.stock < 1 ? `<span class="badge out">Sold out</span>` : p.stock <= 5 ? `<span class="badge">Only ${p.stock} left</span>` : ""}</div>
       <div class="product-info">
-        <small>${product.category}</small>
-        <h3>${product.name}</h3>
-        <p>${product.description}</p>
-        <div class="price">$${Number(product.price).toFixed(2)}</div>
-        <button class="btn" onclick='addToCart(${JSON.stringify(product)})'>Add to cart</button>
+        <small>${esc(p.category)}</small>
+        <h3><a href="product.html?id=${esc(p._id)}">${esc(p.name)}</a></h3>
+        <p>${esc(p.description)}</p>
+        <div class="price">${money(p.price)}</div>
+        <button class="btn" data-add="${esc(p._id)}" ${p.stock < 1 ? "disabled" : ""}>${p.stock < 1 ? "Sold out" : "Add to cart"}</button>
       </div>
-    </article>
-  `).join("");
+    </article>`).join("");
 }
 
-function addToCart(product) {
-  const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-  const existing = cart.find(item => item._id === product._id);
-  if (existing) existing.quantity += 1;
-  else cart.push({ ...product, quantity: 1 });
-  localStorage.setItem("cart", JSON.stringify(cart));
-  updateCartCount();
-}
-
-function updateCartCount() {
-  const count = JSON.parse(localStorage.getItem("cart") || "[]")
-    .reduce((sum, item) => sum + item.quantity, 0);
-  const element = document.getElementById("cartCount");
-  if (element) element.textContent = count;
-}
-
-searchInput?.addEventListener("input", event => {
-  const query = event.target.value.toLowerCase();
-  renderProducts(products.filter(p =>
-    p.name.toLowerCase().includes(query) ||
-    p.category.toLowerCase().includes(query)
-  ));
+grid.addEventListener("click", (e) => {
+  const id = e.target.dataset.add;
+  if (!id) return;
+  if (!requireCustomer()) return;
+  const p = products.find((x) => x._id === id);
+  const cart = getCart();
+  const line = cart.find((i) => i._id === id);
+  if (line) { if (line.quantity >= p.stock) return toast("No more stock available"); line.quantity++; }
+  else cart.push({ _id: p._id, name: p.name, price: p.price, image: p.image, stock: p.stock, quantity: 1 });
+  saveCart(cart);
+  toast(`${p.name} added to cart`);
 });
 
-updateCartCount();
+categoryBar.addEventListener("click", (e) => {
+  if (!e.target.dataset.cat) return;
+  activeCategory = e.target.dataset.cat;
+  renderCategories(); render();
+});
+searchInput.addEventListener("input", render);
+
 loadProducts();

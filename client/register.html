@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register | ChalaStore</title>
   <link rel="stylesheet" href="css/style.css">
+  <script src="js/theme.js"></script>
 </head>
 <body class="auth-page">
   <div class="auth-card">
@@ -17,9 +18,10 @@
       <input id="registerPassword" type="password" placeholder="Password" minlength="6" required>
       <button class="btn" type="submit">Create account</button>
     </form>
-    <p id="authMessage"></p>
+    <p id="authMessage" class="msg error"></p>
     <a href="login.html">Already have an account?</a>
   </div>
+  <script src="js/common.js"></script>
   <script src="js/auth.js"></script>
 </body>
 </html>
